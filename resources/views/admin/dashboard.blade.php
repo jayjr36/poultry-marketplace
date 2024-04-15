@@ -28,7 +28,7 @@
                         <a class="nav-link btn btn-info btn-lg text-white"  role="button" href="{{route('posts.index')}}"  target="iframe">View Posts</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link btn btn-info btn-lg text-white"  type="button" href="#">Orders</a>
+                        <a class="nav-link btn btn-info btn-lg text-white"  type="button" href="{{route('carts.index')}}" target="iframe">Orders</a>
                     </li>
                     <!-- Add more sidebar buttons as needed -->
                 </ul>

@@ -3,9 +3,8 @@
 @extends('layout')
 @section('content')
     <div class="container">
-        <h1>All Posts</h1>
-        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#cartModal" onclick="showCart()">Show
-            Cart</button>
+        <h1 class="text-center mb-4">All Posts</h1>
+        <button type="button" class="btn btn-info mb-4" data-bs-toggle="modal" data-bs-target="#cartModal" onclick="showCart()">Show Cart</button>
 
         <div class="row">
             @foreach ($posts as $post)
@@ -16,17 +15,31 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ $post->title }}</h5>
                             <p class="card-text">{{ $post->description }}</p>
-                            <p class="card-text">Price: ${{ $post->price }}</p>
-                            <div class="btn-group px-4" role="group">
-                                <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-primary">Edit</a>
-                                <form action="{{ route('posts.destroy', $post->id) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger">Delete</button>
-                                </form>
+                            <p class="card-text">{{ $post->price }} <span>Tsh</span></p>
+                          
+                            <div class="row">
+                                <div class="col">
+                                    <form action="{{ route('posts.edit', $post->id) }}" method="GET" class="w-100">
+                                        @csrf
+                                        <button type="submit" class="btn btn-primary btn-sm w-100">EDIT</button>
+                                    </form>
+                                </div>
+                                <div class="col">
+                                    <form action="{{ route('posts.destroy', $post->id) }}" method="POST" class="w-100">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-sm w-100">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                            
+                                                  
+                            .<div class="row justify-content-center align-items-center g-2">
+                                <input type="text" class="form-control quantity-input" placeholder="Quantity" >
                                 <input type="checkbox" class="form-check-input btn-check" id="select-{{ $post->id }}">
                                 <label class="btn btn-outline-primary" for="select-{{ $post->id }}">ADD TO CART</label>
                             </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -62,60 +75,59 @@
 </script>
 
 <script>
-    function showCart() {
-        let checkedItems = [];
-        let checkboxes = document.getElementsByClassName('btn-check');
-        for (let checkbox of checkboxes) {
-            if (checkbox.checked) {
-                let post = checkbox.closest('.card-body');
-                let title = post.querySelector('.card-title').innerText;
-                let description = post.querySelector('.card-text').innerText;
-                let price = post.querySelector('.card-text:nth-child(3)').innerText;
-                let quantity = 1; // Default quantity
-                let quantityInput =
-                    `<input type="number" class="form-control quantity-input" value="${quantity}" min="1">`;
-                checkedItems.push(`<li>${title} - ${description} - ${price} - Quantity: ${quantityInput}</li>`);
-            }
-        }
-        document.getElementById('cartItemsList').innerHTML = checkedItems.join('');
-    }
-    const csrfToken = "{{ csrf_token() }}";
-
-    function saveCart() {
-    let cartItems = [];
+   function showCart() {
+    let checkedItems = [];
     let checkboxes = document.getElementsByClassName('btn-check');
     for (let checkbox of checkboxes) {
         if (checkbox.checked) {
             let post = checkbox.closest('.card-body');
             let title = post.querySelector('.card-title').innerText;
-            let description = post.querySelector('.card-text').innerText;
-            let price = parseFloat(post.querySelector('.card-text:nth-child(3)').innerText.replace(/\$/g, ''));
-            let quantityInput = post.querySelector('.quantity-input');
-            let quantity = quantityInput ? parseInt(quantityInput.value) : 1; // default quantity
-            cartItems.push({
-                title: title,
-                description: description,
-                price: price,
-                quantity: quantity
-            });
+            let description = post.querySelector('.card-text:nth-child(2)').innerText;
+            let price = post.querySelector('.card-text:nth-child(3)').innerText; 
+            let quantity = post.querySelector('.quantity-input').value; // Retrieve quantity value
+          
+            checkedItems.push(`<li>${title} - ${description} - ${price} - Quantity: ${quantity}</li>`);
         }
+    }
+    document.getElementById('cartItemsList').innerHTML = checkedItems.join('');
+}
+    const csrfToken = "{{ csrf_token() }}";
+    function saveCart() {
+        let cartItems = [];
+    let quantityInputs = document.getElementsByClassName('quantity-input');
+    for (let input of quantityInputs) {
+        let post = input.closest('.card-body');
+        let title = post.querySelector('.card-title').innerText;
+        let description = post.querySelector('.card-text').innerText;
+        let price = parseFloat(post.querySelector('.card-text:nth-child(3)').innerText.replace(/\$/g, ''));
+        let quantity = parseInt(input.value);
+        
+        cartItems.push({
+            title: title,
+            description: description,
+            price: price,
+            quantity: quantity
+        });
     }
 
     // Send AJAX request to save cart items
     const csrfToken = "{{ csrf_token() }}";
     fetch("{{ route('cart.save') }}", {
+        
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'X-CSRF-TOKEN': csrfToken
         },
         body: JSON.stringify({
-            userId: "{{ Auth::id() }}", // Ensure userId is properly populated
+            userId: "{{ Auth::id() }}", 
             cartItems: cartItems
         })
     })
     .then(response => {
         if (response.ok) {
+            console.log('value $(quantity)');
+           
             console.log('Cart items saved successfully.');
         } else {
             console.error('Failed to save cart items.');
@@ -127,3 +139,4 @@
 }
 
 </script>
+
