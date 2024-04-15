@@ -3,7 +3,7 @@
 @extends('layout')
 @section('content')
     <div class="container">
-        <h1 class="text-center mb-4">All Posts</h1>
+        <h1 class="text-center mb-4"></h1>
         <button type="button" class="btn btn-info mb-4" data-bs-toggle="modal" data-bs-target="#cartModal" onclick="showCart()">Show Cart</button>
 
         <div class="row">
@@ -112,8 +112,7 @@
 
     // Send AJAX request to save cart items
     const csrfToken = "{{ csrf_token() }}";
-    fetch("{{ route('cart.save') }}", {
-        
+    fetch("{{ route('cart.save') }}", {       
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -126,17 +125,19 @@
     })
     .then(response => {
         if (response.ok) {
-            console.log('value $(quantity)');
-           
-            console.log('Cart items saved successfully.');
+            return response.json(); 
         } else {
-            console.error('Failed to save cart items.');
+            throw new Error('Items not purchased');
         }
+    })
+    .then(data => {
+        console.log(data);
+        alert('Purchase successfully.');
     })
     .catch(error => {
         console.error('Error saving cart items:', error);
+        alert('Insufficient balance');
     });
 }
-
 </script>
 

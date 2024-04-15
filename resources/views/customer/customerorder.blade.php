@@ -6,12 +6,13 @@
    
     <div class="container py-5">
         <div class="row justify-content-center">
-            <div class="col-md-8">
-                <h1 class="text-center">Carts for User: {{ $user->name }}</h1>
+            <div class="col-md-9">
+                <h1 class="text-center">Purchased Items: {{ $user->name }}</h1>
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead>
                             <tr>
+                                <th>Cart Id</th>
                                 <th>Title</th>
                                 <th>Description</th>
                                 <th>Price</th>
@@ -22,6 +23,7 @@
                         <tbody>
                             @foreach($carts as $cart)
                             <tr>
+                                <td>{{ $cart->id}}</td>
                                 <td>{{ $cart->title }}</td>
                                 <td>{{ $cart->description }}</td>
                                 <td>{{ $cart->price }}</td>

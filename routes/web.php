@@ -22,6 +22,11 @@ Route::get('/home', function () {
     return view('customer.customerhome');
 });
 
+
+Route::get('/customer-home', function(){
+    return view('customer.home');
+})->name('customer.home');
+
 Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
 Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
 
