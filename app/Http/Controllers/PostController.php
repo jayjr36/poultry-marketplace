@@ -48,7 +48,7 @@ class PostController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Example validation for image upload
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
         ]);
 
         $post = new Post;
@@ -67,4 +67,6 @@ class PostController extends Controller
 
         return redirect()->route('posts.create')->with('success', 'Post created successfully.');
     }
+
+    
 }

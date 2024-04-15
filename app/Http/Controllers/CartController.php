@@ -2,29 +2,48 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
+use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-    // Controller method to display the cart modal
-public function showCartModal()
+public function save_cart(Request $request)
 {
-    // Fetch cart items from the database or session
-   // $cartItems = Cart::all(); // Example: Assuming Cart is a model representing the cart items
+    try {
+        $userId = $request->input('userId');
+        $user = User::find($userId);
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
 
-   // return view('cart_modal')->with('cartItems', $cartItems);
-}
+        $cartItems = $request->input('cartItems');
+        $totalPrice = 0;
 
-// Controller method to add an item to the cart
-public function addToCart(Request $request)
-{
-    // Logic to add the item to the cart (e.g., save to database or session)
-}
+        foreach ($cartItems as $cartItem) {
+            $itemTotalPrice = $cartItem['price'] * $cartItem['quantity'];
+            $totalPrice += $itemTotalPrice;
 
-// Controller method to remove an item from the cart
-public function removeFromCart(Request $request)
-{
-    // Logic to remove the item from the cart (e.g., delete from database or session)
-}
+            Cart::create([
+                'user_id' => $userId,
+                'user_name' => $user->name,
+                'user_phone' => $user->phone,
+                'title' => $cartItem['title'],
+                'description' => $cartItem['description'],
+                'price' => $cartItem['price'],
+                'quantity' => $cartItem['quantity'],
+                'total_price' => $itemTotalPrice, 
+            ]);
+        }
 
+        return response()->json(['success' => true]);
+    } catch (\Exception $e) {
+        // Log the error
+        \Log::error('Error saving cart items: ' . $e->getMessage());
+
+        // Return error response
+        return response()->json(['error' => 'Failed to save cart items'], 500);
+    }
+}   
 }
