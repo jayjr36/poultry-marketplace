@@ -67,6 +67,4 @@ class PostController extends Controller
 
         return redirect()->route('posts.create')->with('success', 'Post created successfully.');
     }
-
-    
 }

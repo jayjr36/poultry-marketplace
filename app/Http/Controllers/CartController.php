@@ -2,29 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cart;
-use App\Models\Post;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-public function saveCart(Request $request)
+    // Controller method to display the cart modal
+public function showCartModal()
 {
-    $cartItems = $request->input('cartItems');
-    $totalPrice = 0;
+    // Fetch cart items from the database or session
+   // $cartItems = Cart::all(); // Example: Assuming Cart is a model representing the cart items
 
-    foreach ($cartItems as $cartItem) {
-        $itemTotalPrice = $cartItem['price'] * $cartItem['quantity'];
-        $totalPrice += $itemTotalPrice;
-
-        Cart::create([
-            'title' => $cartItem['title'],
-            'description' => $cartItem['description'],
-            'price' => $cartItem['price'],
-            'quantity' => $cartItem['quantity'],
-            'total_price' => $itemTotalPrice, 
-        ]);
-    }
-    return response()->json(['success' => true]);
+   // return view('cart_modal')->with('cartItems', $cartItems);
 }
+
+// Controller method to add an item to the cart
+public function addToCart(Request $request)
+{
+    // Logic to add the item to the cart (e.g., save to database or session)
+}
+
+// Controller method to remove an item from the cart
+public function removeFromCart(Request $request)
+{
+    // Logic to remove the item from the cart (e.g., delete from database or session)
+}
+
 }

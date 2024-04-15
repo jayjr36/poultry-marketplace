@@ -8,9 +8,6 @@ Route::get('/', function () {
     return view('admin.dashboard');
 });
 
-Route::get('/customer', function () {
-    return view('customer.customerhome');
-});
 
 Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
 Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
@@ -21,7 +18,6 @@ Route::put('/posts/{post}', [PostController::class, 'update'])->name('posts.upda
 Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
 
 // Define routes for the controller methods
-Route::get('/cart', [CartController::class, 'showCart'])->name('cart.show');
+Route::get('/cart', [CartController::class, 'showCartModal'])->name('cart.show');
 Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
 Route::post('/cart/remove', [CartController::class, 'removeFromCart'])->name('cart.remove');
-
