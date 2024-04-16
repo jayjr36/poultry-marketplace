@@ -12,7 +12,7 @@
                 <h3 class="mb-4">Step into our virtual coop <br> and discover a world of <br> feathered wonders!</h3>
                 <h3>From colorful hens to <br> majestic cocks, we have <br> something for every <br> poultry enthusiast.
                 </h3>
-                <a href="#" class="btn btn-primary btn-lg mt-4">Get started</a>
+               
             </div>
         </div>
         <div class="col-md-5 d-flex justify-content-center align-items-center">

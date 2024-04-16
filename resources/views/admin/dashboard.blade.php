@@ -19,24 +19,33 @@
             <div class="col-md-2 bg-dark bg-gradient" >
                 <ul class="nav flex-column px-1">
                     <li class="nav-item">
-                        <a class="nav-link btn btn-info btn-lg text-white"  role="button" href="#">Dashboard</a>
+                        <a class="nav-link btn btn-info btn-lg text-white"  role="button" href="{{route('admin.landing')}}"  target="iframe">Dashboard</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-info btn-lg text-white"  role="button" href="{{ route('posts.create') }}" target="iframe">Add Post</a>
-                    </li>
+                   
                     <li class="nav-item">
                         <a class="nav-link btn btn-info btn-lg text-white"  role="button" href="{{route('posts.index')}}"  target="iframe">View Posts</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link btn btn-info btn-lg text-white"  type="button" href="{{route('carts.index')}}" target="iframe">Orders</a>
+                   
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-info btn-lg text-white"  role="button" href="{{ route('posts.create') }}" target="iframe">Add Post</a>
                     </li>
+                    <!--
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-info btn-lg text-white"  type="button" href="{{route('courier.create')}}" target="iframe">Add Courriers</a>
+                    </li>
+                </li>
+                   <li class="nav-item">
+                         <a class="nav-link btn btn-info btn-lg text-white"  type="button" href="{{route('courier.index')}}" target="iframe">Couriers</a>
+                     </li>-->
                     <!-- Add more sidebar buttons as needed -->
                 </ul>
             </div>
 
             <!-- Right Main Pane with Iframe -->
             <div class="col">
-                <iframe src="https://example.com" frameborder="0" width="100%" name="iframe" height="800"></iframe>
+                <iframe src="{{route('admin.landing')}}" frameborder="0" width="100%" name="iframe" height="800"></iframe>
                 <!-- Replace the URL above with your desired content -->
             </div>
         </div>

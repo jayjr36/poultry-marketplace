@@ -3,12 +3,12 @@
 @extends('layout')
 
 @section('content')
+<div  class="container-fluid bg-dark  d-flex" style="height: 100vh;">
 <div class="container py-4">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <div class="card">
-                <div class="card-header  bg-dark bg-gradient text-white">Create Post</div>
-
+            <div class="card bg-dark text-white border-white">
+                <div class="card-header ">Create Post</div>
                 <div class="card-body">
                     @if (session('success'))
                         <div class="alert alert-success" role="alert">
@@ -63,13 +63,14 @@
                             @enderror
                         </div>
 
-                        <div class="form-group py-3 text-center">
-                            <button type="submit" class="btn btn-info btn-lg">Submit</button>
+                        <div class="row py-3 text-center">
+                            <button type="submit" class="btn btn-success btn-lg">Submit</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 @endsection

@@ -2,13 +2,13 @@
 
 @extends('layout')
 @section('content')
-    <div class="container">
+    <div class="container-fluid bg-dark text-white" style="height: 100vh;">
         <h1 class="text-center mb-4"></h1>
         <button type="button" class="btn btn-info mb-4" data-bs-toggle="modal" data-bs-target="#cartModal" onclick="showCart()">Show Cart</button>
 
         <div class="row">
             @foreach ($posts as $post)
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="card mb-4">
                         <img src="{{ asset('storage/images/' . $post->image) }}" height="150px" width="150px"
                             class="card-img-top" alt="{{ $post->title }}">
@@ -16,7 +16,8 @@
                             <h5 class="card-title">{{ $post->title }}</h5>
                             <p class="card-text">{{ $post->description }}</p>
                             <p class="card-text">{{ $post->price }} <span>Tsh</span></p>
-                          
+                           
+                            @if(auth()->user()->role_id == 1)
                             <div class="row">
                                 <div class="col">
                                     <form action="{{ route('posts.edit', $post->id) }}" method="GET" class="w-100">
@@ -32,14 +33,16 @@
                                     </form>
                                 </div>
                             </div>
+                        @endif
+                        
                             
-                                                  
-                            .<div class="row justify-content-center align-items-center g-2">
+                        @if(auth()->user()->role_id == 2)                    
+                            <div class="row justify-content-center align-items-center g-2">
                                 <input type="text" class="form-control quantity-input" placeholder="Quantity" >
                                 <input type="checkbox" class="form-check-input btn-check" id="select-{{ $post->id }}">
                                 <label class="btn btn-outline-primary" for="select-{{ $post->id }}">ADD TO CART</label>
                             </div>
-                            
+                            @endif
                         </div>
                     </div>
                 </div>

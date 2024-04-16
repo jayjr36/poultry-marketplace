@@ -4,7 +4,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CartController;
-
+use App\Http\Controllers\CourierController;
 
 Route::get('/', function () {
     return view('auth.login');
@@ -47,7 +47,16 @@ Route::get('/carts/{id}',  [CartController::class, 'show'])->name('cart.withid')
 Route::get('/add-balance', [UserController::class,'showBalanceForm'],)->name('add.balance');
 Route::post('/update-balance', [UserController::class,'updateBalance'],)->name('update.balance');
 
+Route::get('/contact', [PostController::class,'showContactForm'])->name('contact.show');
+
+Route::get('/couriers/create', [CourierController::class, 'create'])->name('courier.create');
+Route::post('/couriers', [CourierController::class, 'store'])->name('courier.store');
+Route::get('/couriers', [CourierController::class, 'index'])->name('courier.index');
+Route::post('/orders/{id}/update-courier', [CartController::class, 'updateCourier'])->name('update.courier');
+
+Route::post('/orders/{id}/update-status', [CartController::class, 'updateStatus'])->name('update.status');
 
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
+Route::get('/admin', [UserController::class, 'indexAdmin'])->name('admin.landing');
 Auth::routes();

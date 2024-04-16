@@ -1,9 +1,11 @@
 @extends('layout')
 
 @section('content')
-<div class="container">
+<div  class="container-fluid bg-dark text-white" style="height: 100vh;">
+<div class="container py-5">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-8 py-5">
+            <h1>Online Poultry Sales</h1>
             <div class="card">
                 <div class="card-header">{{ __('Register') }}</div>
 
@@ -74,8 +76,8 @@
                         </div>
 
                         <div class="row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                            <div class=" offset-md-4">
+                                <button type="submit" class="btn btn-success">
                                     {{ __('Register') }}
                                 </button>
                             </div>
@@ -84,6 +86,7 @@
                 </div>
             </div>
         </div>
+    </div>
     </div>
 </div>
 @endsection

@@ -1,10 +1,12 @@
 @extends('layout')
 
 @section('content')
+<div  class="container-fluid bg-dark text-white" style="height: 100vh;">
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
+        <div class="col-md-8 py-5">
+            <h1>Online Poultry Sales</h1>
+            <div class="card py-5">
                 <div class="card-header">{{ __('Login') }}</div>
 
                 <div class="card-body">
@@ -77,5 +79,6 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 @endsection

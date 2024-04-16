@@ -3,8 +3,9 @@
 @extends('layout')
 
 @section('content')
+<div  class="container-fluid bg-dark text-white" style="height: 100vh;">
     <div class="container col-6">
-        <h1>Edit Post</h1>
+        <h1 class="card-header ">Edit Post</h1>
         <form method="POST" action="{{ route('posts.update', $post->id) }}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
@@ -54,9 +55,10 @@
                 <img src="{{ asset('storage/images/' . $post->image) }}" alt="{{ $post->title }}" style="max-width: 200px;">
             </div>
 
-            <div class="form-group">
-                <button type="submit" class="btn btn-info">Update</button>
+            <div class="row px-3">
+                <button type="submit" class="btn btn-success">Update</button>
             </div>
         </form>
     </div>
+</div>
 @endsection

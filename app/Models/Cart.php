@@ -16,7 +16,14 @@ class Cart extends Model
         'description',
         'price',
         'quantity',
-        'total_price'
+        'total_price',
+        'status',
+        'courier_id'
     ];
+
+    public function courier()
+    {
+        return $this->belongsTo(Courrier::class);
+    }
 }
 

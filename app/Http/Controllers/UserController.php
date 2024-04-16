@@ -7,6 +7,10 @@ use App\Models\User;
 
 class UserController extends Controller
 {
+    public function indexAdmin()
+    {
+        return view('admin.adminhome');
+    }
     public function updateBalance(Request $request)
     {
         $userId = auth()->user()->id;

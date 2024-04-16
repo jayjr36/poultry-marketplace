@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\Post;
 use App\Models\User;
+use App\Models\Courrier;
+
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -12,7 +14,8 @@ class CartController extends Controller
 
     public function index()
     {
-        $carts = Cart::all(); // Fetch all carts from the database
+        $carts = Cart::all();
+       // $carts = Cart::paginate(10);
         return view('admin.order', compact('carts'));
     }
 
@@ -80,4 +83,19 @@ class CartController extends Controller
         }
         return response()->json(['cart' => $cart]);
     }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $order = Cart::findOrFail($id);
+        $order->update(['status' => 'confirmed']);
+        return redirect()->back()->with('success', 'Order status updated successfully.');
+    }
+
+    public function updateCourier(Request $request, $id)
+    {
+        $order = Cart::findOrFail($id);
+        $order->update(['courier_id' => $request->courier_id]);
+        return redirect()->back()->with('success', 'Courier assigned successfully.');
+    }
+
 }
