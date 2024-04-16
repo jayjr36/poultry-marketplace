@@ -31,14 +31,14 @@
                     <li class="nav-item">
                         <a class="nav-link btn btn-info btn-lg text-white"  role="button" href="{{ route('posts.create') }}" target="iframe">Add Post</a>
                     </li>
-                    <!--
+                    
                     <li class="nav-item">
                         <a class="nav-link btn btn-info btn-lg text-white"  type="button" href="{{route('courier.create')}}" target="iframe">Add Courriers</a>
                     </li>
                 </li>
                    <li class="nav-item">
                          <a class="nav-link btn btn-info btn-lg text-white"  type="button" href="{{route('courier.index')}}" target="iframe">Couriers</a>
-                     </li>-->
+                     </li>
                     <!-- Add more sidebar buttons as needed -->
                 </ul>
             </div>
