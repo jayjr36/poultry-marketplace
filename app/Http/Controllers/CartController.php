@@ -15,10 +15,24 @@ class CartController extends Controller
     public function index()
     {
         $carts = Cart::all();
+        $couriers = Courrier::all();
        // $carts = Cart::paginate(10);
-        return view('admin.order', compact('carts'));
+        return view('admin.order', compact('carts', 'couriers'));
     }
 
+//     public function index()
+// {
+//     // Fetch orders grouped by created_at and user_id
+//     $orders = Cart::orderBy('created_at')
+//                    ->orderBy('user_id')
+//                    ->get()
+//                    ->groupBy(['created_at', 'user_id']);
+
+//     // Fetch all couriers
+//     $couriers = Courrier::all();
+
+//     return view('admin.order', compact('orders', 'couriers'));
+// }
     public function save_cart(Request $request)
     {
         try {
@@ -71,7 +85,12 @@ class CartController extends Controller
         if (!$user) {
             return response()->json(['error' => 'User not found'], 404);
         }
-        $carts = Cart::where('user_id', $userId)->get();
+    
+        // Fetch carts with courier relationship eagerly loaded
+        $carts = Cart::where('user_id', $userId)
+                     ->with('courier') // Eager load courier relationship
+                     ->get();
+    
         return view('customer.customerorder', compact('carts', 'user'));
     }
 
@@ -91,11 +110,13 @@ class CartController extends Controller
         return redirect()->back()->with('success', 'Order status updated successfully.');
     }
 
-    public function updateCourier(Request $request, $id)
-    {
-        $order = Cart::findOrFail($id);
-        $order->update(['courier_id' => $request->courier_id]);
-        return redirect()->back()->with('success', 'Courier assigned successfully.');
-    }
+    public function assignCourier(Request $request, $id)
+{
+    $order = Cart::findOrFail($id);
+    $order->courier_id = $request->courier_id;
+    $order->save();
+
+    return redirect()->back()->with('success', 'Courier assigned successfully.');
+}
 
 }

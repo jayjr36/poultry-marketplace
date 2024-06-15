@@ -15,10 +15,10 @@
                     <p>This dashboard provides you with tools to manage the poultry sales system efficiently.</p>
 
                 </div>
+                <div class="card-body">
+                    <h3>Total Sales:  <span class="text-white">{{ auth()->user()->balance }}Tshs</span></h3>
                 </div>
-                   
                 </div>
-            
         </div>
     </div>
 </div>

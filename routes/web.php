@@ -60,3 +60,5 @@ Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::get('/admin', [UserController::class, 'indexAdmin'])->name('admin.landing');
 Auth::routes();
+
+Route::post('/orders/{id}/assign-courier', [CartController::class, 'assignCourier'])->name('assign.courier');

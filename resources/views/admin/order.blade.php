@@ -3,7 +3,7 @@
 @section('content')
     <div class="container-fluid bg-dark text-white py-4 d-flex" style="height: 200vh;">
         <div class="row justify-content-center">
-            <div class="col-md-10">
+            <div class="col">
                 <h1 class="text-center">ORDERS</h1>
                 <div class="table-responsive">
                     <table class="table table-bordered border-dark">
@@ -19,6 +19,7 @@
                                 <th>Phone</th>
                                 <th>Status</th>
                                 <th>Action</th>
+                                <th>Courier</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -40,6 +41,18 @@
                                                 <button type="submit" class="btn btn-primary">Confirm</button>
                                             </form>
                                         @endif
+                                    </td>
+                                    <td>
+                                        <!-- Select courier dropdown -->
+                                        <form action="{{ route('assign.courier', $cart->id) }}" method="POST">
+                                            @csrf
+                                            <select name="courier_id" class="form-control">
+                                                @foreach ($couriers as $courier)
+                                                    <option value="{{ $courier->id }}">{{ $courier->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <button type="submit" class="btn btn-success">Assign Courier</button>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach

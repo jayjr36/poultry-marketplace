@@ -22,7 +22,9 @@ return new class extends Migration
             $table->string('quantity')->nullable();
             $table->string('total_price')->nullable();
             $table->string('status')->nullable()->default('-');
+            $table->foreignId('courier_id')->nullable();
             $table->timestamps();
+
         });
     }
 
