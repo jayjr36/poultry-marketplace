@@ -15,7 +15,6 @@
                             {{ session('success') }}
                         </div>
                     @endif
-
                     <form method="POST" action="{{ route('posts.store') }}" enctype="multipart/form-data">
                         @csrf
 
@@ -53,15 +52,16 @@
                         </div>
 
                         <div class="form-group py-3">
-                            <label for="image">Image</label>
-                            <input id="image" type="file" class="form-control-file @error('image') is-invalid @enderror" name="image">
-
-                            @error('image')
+                            <label for="media">Upload Image or Video</label>
+                            <input id="media" type="file" class="form-control-file @error('media') is-invalid @enderror" name="media" accept="image/*,video/*">
+                        
+                            @error('media')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
                         </div>
+                        
 
                         <div class="row py-3 text-center">
                             <button type="submit" class="btn btn-success btn-lg">Submit</button>

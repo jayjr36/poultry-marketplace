@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -48,25 +49,61 @@ class PostController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
+            'media' => 'nullable|mimes:jpeg,png,jpg,gif,mp4,mov,avi|max:2080', // Max 20MB
         ]);
-
+    
         $post = new Post;
+        $post->seller_id = Auth::id();
         $post->title = $request->title;
         $post->description = $request->description;
         $post->price = $request->price;
-
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time().'.'.$image->getClientOriginalExtension();
-            $image->storeAs('public/images', $imageName);
-            $post->image = $imageName;
+    
+        if ($request->hasFile('media')) {
+            $media = $request->file('media');
+            $mediaName = time().'.'.$media->getClientOriginalExtension();
+            $mediaType = $media->getClientMimeType();
+            
+            if (in_array($media->getClientOriginalExtension(), ['jpeg', 'png', 'jpg', 'gif'])) {
+                $media->storeAs('public/images', $mediaName);
+            } else {
+                $media->storeAs('public/videos', $mediaName);
+            }
+    
+            $post->media = $mediaName;
+            $post->media_type = $mediaType;
         }
-
+    
         $post->save();
-
+    
         return redirect()->route('posts.create')->with('success', 'Post created successfully.');
     }
+    
+
+    // public function store(Request $request)
+    // {
+    //     $request->validate([
+    //         'title' => 'required|string|max:255',
+    //         'description' => 'required|string',
+    //         'price' => 'required|numeric|min:0',
+    //         'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
+    //     ]);
+
+    //     $post = new Post;
+    //     $post->title = $request->title;
+    //     $post->description = $request->description;
+    //     $post->price = $request->price;
+
+    //     if ($request->hasFile('image')) {
+    //         $image = $request->file('image');
+    //         $imageName = time().'.'.$image->getClientOriginalExtension();
+    //         $image->storeAs('public/images', $imageName);
+    //         $post->image = $imageName;
+    //     }
+
+    //     $post->save();
+
+    //     return redirect()->route('posts.create')->with('success', 'Post created successfully.');
+    // }
 
     public function showContactForm()
     {

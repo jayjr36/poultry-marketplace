@@ -14,8 +14,8 @@ class UserRoleSeeder extends Seeder
     public function run(): void
     {
         DB::table('user_roles')->insert([
-            ['name' => 'admin'],
-            ['name' => 'user'],
+            ['name' => 'Seller'],
+            ['name' => 'Buyer'],
         ]);
     }
 }

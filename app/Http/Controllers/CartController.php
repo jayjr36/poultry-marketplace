@@ -20,64 +20,57 @@ class CartController extends Controller
         return view('admin.order', compact('carts', 'couriers'));
     }
 
-//     public function index()
-// {
-//     // Fetch orders grouped by created_at and user_id
-//     $orders = Cart::orderBy('created_at')
-//                    ->orderBy('user_id')
-//                    ->get()
-//                    ->groupBy(['created_at', 'user_id']);
 
-//     // Fetch all couriers
-//     $couriers = Courrier::all();
+public function save_cart(Request $request)
+{
+    try {
+        $userId = $request->input('userId');
+        $user = User::find($userId);
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
 
-//     return view('admin.order', compact('orders', 'couriers'));
-// }
-    public function save_cart(Request $request)
-    {
-        try {
-            $userId = $request->input('userId');
-            $user = User::find($userId);
-            if (!$user) {
-                return response()->json(['error' => 'User not found'], 404);
-            }
+        $cartItems = $request->input('cartItems');
+        $totalPrice = 0;
 
-            $cartItems = $request->input('cartItems');
-            $totalPrice = 0;
+        foreach ($cartItems as $cartItem) {
+            $itemTotalPrice = $cartItem['price'] * $cartItem['quantity'];
+            $totalPrice += $itemTotalPrice;
+        }
+        if ($user->balance >= $totalPrice) {
+            $user->balance -= $totalPrice;
+            $user->save();
 
             foreach ($cartItems as $cartItem) {
-                $itemTotalPrice = $cartItem['price'] * $cartItem['quantity'];
-                $totalPrice += $itemTotalPrice;
-            }
-            if ($user->balance >= $totalPrice) {
-                $user->balance -= $totalPrice;
-                $user->save();
-                $admin = User::where('role_id', '1')->first();
-                if ($admin) {
-                    $admin->balance += $totalPrice;
-                    $admin->save();
+                $seller = User::find($cartItem['seller_id']);
+                if ($seller) {
+                    $seller->balance += $cartItem['price'] * $cartItem['quantity'];
+                    $seller->save();
+                }else{
+                    print('seller_id not found');
                 }
-                foreach ($cartItems as $cartItem) {
-                    Cart::create([
-                        'user_id' => $userId,
-                        'user_name' => $user->name,
-                        'user_phone' => $user->phone,
-                        'title' => $cartItem['title'],
-                        'description' => $cartItem['description'],
-                        'price' => $cartItem['price'],
-                        'quantity' => $cartItem['quantity'],
-                        'total_price' => $cartItem['price'] * $cartItem['quantity'],
-                    ]);
-                }
-                return response()->json(['success' => true]);
-            } else {
-                return response()->json(['error' => 'Insufficient balance'], 400);
+
+                Cart::create([
+                    'user_id' => $userId,
+                    'user_name' => $user->name,
+                    'user_phone' => $user->phone,
+                    'title' => $cartItem['title'],
+                    'description' => $cartItem['description'],
+                    'price' => $cartItem['price'],
+                    'quantity' => $cartItem['quantity'],
+                    'total_price' => $cartItem['price'] * $cartItem['quantity'],
+                ]);
             }
-        } catch (\Exception $e) {
-            \Log::error('Error saving cart items: ' . $e->getMessage());
-            return response()->json(['error' => 'Failed to save cart items'], 500);
+            return response()->json(['success' => true]);
+        } else {
+            return response()->json(['error' => 'Insufficient balance'], 400);
         }
+    } catch (\Exception $e) {
+        \Log::error('Error saving cart items: ' . $e->getMessage());
+        return response()->json(['error' => 'Failed to save cart items'], 500);
     }
+}
+
 
     public function indexByUser($userId)
     {

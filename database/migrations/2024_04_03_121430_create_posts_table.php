@@ -16,7 +16,9 @@ return new class extends Migration
             $table->string('title');
             $table->text('description');
             $table->decimal('price', 8, 2); // Example of price as decimal
-            $table->string('image')->nullable();
+            $table->string('media')->nullable();
+            $table->string('seller_id')->nullable();
+            $table->string('media_type')->nullable();
             $table->timestamps();
         });
     }
