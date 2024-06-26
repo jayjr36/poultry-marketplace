@@ -27,7 +27,19 @@
                         <h5 class="card-title">{{ $post->title }}</h5>
                         <p class="card-text">{{ $post->description }}</p>
                         <p class="card-text">{{ $post->price }} <span>Tsh</span></p>
-
+                        @if(auth()->user()->role_id == 2)
+                        @php
+                            $seller = \App\Models\User::find($post->seller_id);
+                        @endphp
+                    
+                        @if ($seller)
+                        <div class="row">
+                            <p class="card-text"> {{ $seller->name }}: {{ $seller->phone }}</p>
+                            <a href="https://wa.me/{{ $seller->phone }}" class="btn btn-success" target="_blank">WhatsApp</a>
+                       
+                        </div>
+                        @endif
+                    @endif
                         @if(auth()->user()->role_id == 1)
                         <div class="row">
                             <div class="col">
@@ -45,7 +57,7 @@
                             </div>
                         </div>
                         @endif
-
+                    
                         @if(auth()->user()->role_id == 2)                    
                         <div class="row justify-content-center align-items-center g-2">
                             <input type="text" class="form-control quantity-input" placeholder="Quantity">
@@ -54,6 +66,7 @@
                         </div>
                         @endif
                     </div>
+                    
                 </div>
             </div>
         @endforeach
