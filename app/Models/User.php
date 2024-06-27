@@ -48,6 +48,10 @@ class User extends Authenticatable
     }
     public function hasRole($roleName)
     {
+        if ($this->role === null) {
+           print("User does not have a role assigned.");
+        }
+    
         return $this->role->name === $roleName;
     }
     public function role() {

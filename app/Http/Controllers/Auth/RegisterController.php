@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class RegisterController extends Controller
 {
@@ -40,6 +41,15 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
+    protected function redirectTo()
+    {
+        if (Auth::user()->hasRole('Seller')) {
+            return '/adminhome'; 
+        } else {
+            return '/home'; 
+        }
+    }
+
     /**
      * Get a validator for an incoming registration request.
      *
@@ -52,6 +62,7 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'phone' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'role_id'=> ['required', 'max:255'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
@@ -68,6 +79,7 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'phone' => $data['phone'],
             'email' => $data['email'],
+            'role_id'=> $data['role_id'],
             'password' => Hash::make($data['password']),
         ]);
     }
