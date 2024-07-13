@@ -38,9 +38,9 @@
                     @if (auth()->check())
                         <span class="text-white">{{ auth()->user()->balance }}Tshs</span>
                     @endif
-                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    {{-- <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         BALANCE
-                    </button>
+                    </button> --}}
 
 
                 </div>

@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CourierController;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\AdminController;
 
 Route::get('/', function () {
     return view('auth.login');
@@ -62,3 +64,6 @@ Route::get('/admin', [UserController::class, 'indexAdmin'])->name('admin.landing
 Auth::routes();
 
 Route::post('/orders/{id}/assign-courier', [CartController::class, 'assignCourier'])->name('assign.courier');
+
+Route::get('/admin/topup', [AdminController::class, 'showTopUpForm'])->name('admin.topup.form');
+Route::post('/admin/topup', [AdminController::class, 'topUpBalance'])->name('admin.topup');

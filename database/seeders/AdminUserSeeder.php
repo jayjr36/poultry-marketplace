@@ -16,7 +16,7 @@ class AdminUserSeeder extends Seeder
      */
     public function run(): void
     {
-        $adminRoleId = DB::table('user_roles')->where('name', 'Seller')->value('id');
+        $adminRoleId = DB::table('user_roles')->where('name', 'admin')->value('id');
 
         DB::table('users')->insert([
             'name' => 'Admin',
