@@ -8,11 +8,11 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card  bg-dark text-white">
-                <div class="card-header">Admin Dashboard</div>
+                <div class="card-header text-center">Dashboard</div>
 
                 <div class="card-body">
-                    <h4>Welcome to the Admin Dashboard!</h4>
-                    <p>This dashboard provides you with tools to manage the poultry sales system efficiently.</p>
+                    <h4 class="text-center">Welcome {{ auth()->user()->name }}</h4>
+                    <p>This dashboard provides you with tools to manage and track your sales efficiently.</p>
 
                 </div>
                 <div class="card-body">
