@@ -7,6 +7,12 @@ use App\Models\User;
 
 class AdminController extends Controller
 {
+
+    public function home()
+    {
+        return view('admin.admindashboard');
+    }
+
     public function showTopUpForm()
     {
         $users = User::all();

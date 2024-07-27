@@ -17,6 +17,7 @@
                 </div>
                 <div class="card-body">
                     <h3>Total Sales:  <span class="text-white">{{ auth()->user()->balance }}Tshs</span></h3>
+                    <a href="{{route('seller.withdraw')}}">Request Withdrawal</a>
                 </div>
                 </div>
         </div>

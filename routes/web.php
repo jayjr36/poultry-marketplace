@@ -7,6 +7,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CourierController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\WithdrawalController;
 
 Route::get('/', function () {
     return view('auth.login');
@@ -67,3 +68,22 @@ Route::post('/orders/{id}/assign-courier', [CartController::class, 'assignCourie
 
 Route::get('/admin/topup', [AdminController::class, 'showTopUpForm'])->name('admin.topup.form');
 Route::post('/admin/topup', [AdminController::class, 'topUpBalance'])->name('admin.topup');
+
+
+Route::get('/seller/withdraw', function () {
+    return view('seller.withdraw');
+})->name('seller.withdraw');
+
+
+Route::get('/admin/landing/home', function () {
+    return view('admin.landing');
+})->name('admin-landing');
+
+
+Route::post('/request-withdrawal', [WithdrawalController::class, 'requestWithdrawal'])->name('request.withdrawal');
+
+Route::get('/admin/withdrawal-requests', [WithdrawalController::class, 'showWithdrawalRequests'])->name('admin.withdrawal.requests');
+Route::put('/admin/approve-withdrawal/{id}', [WithdrawalController::class, 'approveWithdrawal'])->name('admin.approve.withdrawal');
+Route::put('/admin/reject-withdrawal/{id}', [WithdrawalController::class, 'rejectWithdrawal'])->name('admin.reject.withdrawal');
+
+Route::get('/admin/home', [AdminController::class, 'home'])->name('admin.home');
